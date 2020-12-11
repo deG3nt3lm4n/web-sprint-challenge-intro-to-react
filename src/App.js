@@ -12,7 +12,7 @@ const App = () => {
   return (
     <div className="App">
       <h1 className="Header">Characters</h1>
-      <p>Pokemon api</p>
+      <p>Pokemon api v1</p>
     </div>
   );
 }
