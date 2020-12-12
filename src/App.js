@@ -1,19 +1,88 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import axios from 'axios'
+import styled from 'styled-components'
+import PokemonCard from './components/PokemonCard'
+
+const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/'
+
 
 const App = () => {
-  // Try to think through what state you'll need for this app before starting. Then build out
-  // the state properties here.
 
-  // Fetch characters from the API in an effect hook. Remember, anytime you have a 
-  // side effect in a component, you want to think about which state and/or props it should
-  // sync up with, if any.
+  const initialPokemonName = 'pikachu'
+
+  const [pokemonData, setPokemonData] = useState([])
+  const [pokemonName, setPokemonName] = useState(initialPokemonName)
+  const [newPokemon , setNewPokemon] = useState({})
+
+  // Page of pokemon max 20?
+  useEffect(() => {
+    axios.get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=200')
+      .then(res => setPokemonData(res.data.results))
+      .catch(err => console.log(err))
+
+      return(
+        console.log('clean up v1')
+      )
+  },[])
+
+  // Pokemon Search by name
+  useEffect(() => {
+    const fetchData = () => {
+      axios.get(`${pokemonUrl}${pokemonName}`)
+        .then(res => setNewPokemon(res.data))
+        .catch(err => console.log(err))
+    }
+    fetchData()
+    return(
+      console.log('clean up v2')
+    )
+  },[pokemonName])
+
+  // Looking for new pokemon
+  const getPokemonValue = (e) => {
+    e.preventDefault()
+    const {value} = e.target
+    setPokemonName(value)
+  }
 
   return (
     <div className="App">
-      <h1 className="Header">Characters</h1>
+
+    <StyledHeader>
+      <h1>Pokemon App</h1>
+      <p>Find your stupid pokemon</p>
+      <select onChange={getPokemonValue} >
+        {
+          pokemonData.map(pokemon => {
+            return(
+              <option key={pokemon.name} >{pokemon.name}</option>
+            )
+          })
+        }
+      </select>
+    </StyledHeader>
+
+    <StyleCardContainer>
+      <PokemonCard pokemonData={newPokemon} />
+    </StyleCardContainer>
+
     </div>
   );
 }
 
+const StyledHeader = styled.header`
+  background-color: royalBlue;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+`
+
+const StyleCardContainer = styled.main`
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 export default App;
