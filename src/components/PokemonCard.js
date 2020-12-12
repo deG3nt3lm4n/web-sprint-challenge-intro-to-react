@@ -32,6 +32,11 @@ const StyledPokemonCard = styled.div`
   background-color: black;
   padding: 10px;
   width: 200px;
+  transition: all ease-in 500ms;
+
+  &:hover{
+    box-shadow: 0 0 30px 10px rgba(255,124,12,.5);
+  }
 `
 const StyledPokemonCardInner = styled.div`
   background-color: gold;

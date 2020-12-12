@@ -10,11 +10,6 @@ const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/'
 const App = () => {
 
   const initialPokemonName = 'pikachu'
-  const initialPokemon = {
-    image: '',
-    name: '',
-
-  }
 
   const [pokemonData, setPokemonData] = useState([])
   const [pokemonName, setPokemonName] = useState(initialPokemonName)
@@ -27,7 +22,7 @@ const App = () => {
       .catch(err => console.log(err))
 
       return(
-        console.log('clean up')
+        console.log('clean up v1')
       )
   },[])
 
@@ -39,6 +34,9 @@ const App = () => {
         .catch(err => console.log(err))
     }
     fetchData()
+    return(
+      console.log('clean up v2')
+    )
   },[pokemonName])
 
   // Looking for new pokemon
