@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 function Ability({ability}) {
   let ab = []
@@ -8,8 +9,8 @@ function Ability({ability}) {
   }
 
   return (
-    <div>
-      <h4>Abilities</h4>
+    <StyledAbility>
+      <h4>Abilities: </h4>
       <ul>
        {
         ab.map(name => {
@@ -17,8 +18,28 @@ function Ability({ability}) {
         })
        }
       </ul>
-    </div>
+    </StyledAbility>
   )
 }
+
+const StyledAbility = styled.div`
+  width: 100%;
+
+  & h4{
+    text-align: left;
+    padding-left: 2px;
+    margin: 2px 0;
+  }
+  & ul{
+    padding: 4px;
+    margin: 0;
+    list-style-type: none;
+    width: 100%;
+    text-align: left;
+    & li{
+      padding: 2px 0;
+    }
+  }
+`
 
 export default Ability

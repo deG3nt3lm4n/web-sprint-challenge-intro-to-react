@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios'
+import styled from 'styled-components'
 import PokemonCard from './components/PokemonCard'
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/'
@@ -50,7 +51,7 @@ const App = () => {
   return (
     <div className="App">
 
-    <header>
+    <StyledHeader>
       <h1>Pokemon App</h1>
       <p>Find your stupid pokemon</p>
       <select onChange={getPokemonValue} >
@@ -62,12 +63,28 @@ const App = () => {
           })
         }
       </select>
-    </header>
+    </StyledHeader>
 
-    <PokemonCard pokemonData={newPokemon} />
+    <StyleCardContainer>
+      <PokemonCard pokemonData={newPokemon} />
+    </StyleCardContainer>
 
     </div>
   );
 }
 
+const StyledHeader = styled.header`
+  background-color: royalBlue;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+`
+
+const StyleCardContainer = styled.main`
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 export default App;
