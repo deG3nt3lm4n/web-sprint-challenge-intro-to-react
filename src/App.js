@@ -1,13 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios'
+import PokemonCard from './components/PokemonCard'
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/'
 
 
 const App = () => {
 
+  const initialPokemonName = 'pikachu'
+  const initialPokemon = {
+    image: '',
+    name: '',
+
+  }
+
   const [pokemonData, setPokemonData] = useState([])
+  const [pokemonName, setPokemonName] = useState(initialPokemonName)
+  const [newPokemon , setNewPokemon] = useState({})
 
   // Page of pokemon max 20?
   useEffect(() => {
@@ -20,8 +30,22 @@ const App = () => {
       )
   },[])
 
-  console.log(pokemonData)
+  // Pokemon Search by name
+  useEffect(() => {
+    const fetchData = () => {
+      axios.get(`${pokemonUrl}${pokemonName}`)
+        .then(res => setNewPokemon(res.data))
+        .catch(err => console.log(err))
+    }
+    fetchData()
+  },[pokemonName])
 
+  // Looking for new pokemon
+  const getPokemonValue = (e) => {
+    e.preventDefault()
+    const {value} = e.target
+    setPokemonName(value)
+  }
 
   return (
     <div className="App">
@@ -29,26 +53,18 @@ const App = () => {
     <header>
       <h1>Pokemon App</h1>
       <p>Find your stupid pokemon</p>
-      <select>
-        <option>Pokemon 1</option>
-        <option>Pokemon 2</option>
-        <option>Pokemon 3</option>
+      <select onChange={getPokemonValue} >
+        {
+          pokemonData.map(pokemon => {
+            return(
+              <option key={pokemon.name} >{pokemon.name}</option>
+            )
+          })
+        }
       </select>
     </header>
 
-    <div className="PokemonCard">
-      <div className="PokemonCardInner">
-
-        <div className="PokemonCardImage">
-          <img src="" alt="pokemon img" />
-        </div>
-
-        <div className="PokemonCardContent">
-            <h2>Name</h2>
-        </div>
-
-      </div>
-    </div>
+    <PokemonCard pokemonData={newPokemon} />
 
     </div>
   );
